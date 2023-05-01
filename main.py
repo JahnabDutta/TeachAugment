@@ -178,19 +178,19 @@ def main(args):
             save_image(aug_img, os.path.join(args.log_dir, f'{epoch}epoch_aug_img.png'))
             save_image(inputs, os.path.join(args.log_dir, f'{epoch}epoch_img.png'))
     # Evaluation
-    if main_process:
-        logger.info('evaluation')
-        acc1, acc5 = 0, 0
-        model.eval()
-        n_samples = len(eval_loader)
-        with torch.no_grad():
-            for data in eval_loader:
-                input, target = data
-                output = model(input.to(device))
-                accs = utils.accuracy(output, target.to(device), (1, 5))
-                acc1 += accs[0]
-                acc5 += accs[1]
-        logger.info(f'{args.dataset} error rate (%) | Top1 {100 - acc1/n_samples} | Top5 {100 - acc5/n_samples}')
+        if main_process:
+            logger.info('evaluation')
+            acc1, acc5 = 0, 0
+            model.eval()
+            n_samples = len(eval_loader)
+            with torch.no_grad():
+                for data in eval_loader:
+                    input, target = data
+                    output = model(input.to(device))
+                    accs = utils.accuracy(output, target.to(device), (1, 5))
+                    acc1 += accs[0]
+                    acc5 += accs[1]
+            logger.info(f'{args.dataset} error rate (%) | Top1 {100 - acc1/n_samples} | Top5 {100 - acc5/n_samples}')
 
 
 if __name__ == '__main__':
