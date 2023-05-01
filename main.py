@@ -113,6 +113,8 @@ def main(args):
         logger.info('training')
     meter = utils.AvgMeter()
     for epoch in range(st_epoch, args.n_epochs + 1):
+        model.train()
+        ema_model.train()
         if args.dist:
             train_loader.sampler.set_epoch(epoch)
         for i, data in enumerate(train_loader):
@@ -190,7 +192,7 @@ def main(args):
                     accs = utils.accuracy(output, target.to(device), (1, 5))
                     acc1 += accs[0]
                     acc5 += accs[1]
-            logger.info(f'{args.dataset} error rate (%) | Top1 {100 - acc1/n_samples} | Top5 {100 - acc5/n_samples}')
+            logger.info(f'epoch [{epoch/args.n_epochs}] | {args.dataset} error rate (%) | Top1 {100 - acc1/n_samples} | Top5 {100 - acc5/n_samples}')
 
 
 if __name__ == '__main__':
