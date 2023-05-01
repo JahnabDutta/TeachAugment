@@ -2,6 +2,7 @@ from . import resnet
 from . import pyramidnet
 from . import wide_resnet
 from .shakeshake import shake_resnet
+from . import convnet
 
 
 def build_model(model_name, num_classes=10):
@@ -28,5 +29,6 @@ def build_model(model_name, num_classes=10):
 
     elif model_name == 'resnet50':
         model = resnet.ResNet('imagenet', 50, num_classes, True)
-
+    elif model_name == 'convnet':
+        model = convnet.ConvNet(num_classes)
     return model
